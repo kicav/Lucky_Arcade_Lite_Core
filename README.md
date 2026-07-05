@@ -1,32 +1,39 @@
-# Lucky Arcade Lite Core
+# Lucky Arcade Visual
 
-A deliberately small Laravel social-gaming project using **virtual credits only**. Lite Core keeps four games and the operational safeguards that matter, while removing gamification, live feeds, referral systems, support modules, leagues and analytics dashboards.
+Lucky Arcade Visual is the animated presentation layer for Lucky Arcade Lite Core. It keeps the same four-game Laravel backend, immutable virtual-credit ledger, versioned rules and provably-fair results while replacing the plain interface with an original responsive arcade visual system.
 
-## Included
+## Core scope
 
 - Dice, European Roulette, Coin Flip and Lucky Slots
-- Registration, login, account profile and password change
-- Admin/player TOTP two-factor authentication
-- Virtual-credit wallet with immutable ledger entries
-- Idempotent bets, database transactions and row locks
-- Versioned game rules and provably-fair seed verification
-- Play history and wallet history
-- Responsible-play daily limit and self-exclusion
-- Small admin console: players, games, rounds, audit, backup and reconciliation
-- SQLite for Codespaces; PostgreSQL + Redis production configuration
+- Registration, login, account controls and optional TOTP
+- Virtual-credit wallet with immutable ledger
+- Game and wallet history
+- Provably-fair seeds and historic verification
+- Simple admin for players, games, history, audit and backup
+- SQLite for Codespaces development
+- PostgreSQL and Redis production configuration
 
-## Deliberately removed
+## Visual features
 
-Achievements, missions, referrals, leaderboards, promo codes, support tickets, live polling, online presence, announcements, weekly leagues, player analytics, simulation UI and complex admin roles.
+- Original local SVG artwork; no remote assets or licensed game art
+- Animated ambient background and responsive game lobby
+- 3D-style numeric dice cube
+- Animated European roulette wheel
+- Double-sided 3D coin
+- Animated three-reel slot machine
+- Result celebration, generated sound effects and visual feedback
+- Sound toggle and reduced-motion toggle stored in the browser
+- `prefers-reduced-motion` support
+- No change to game outcomes: the server settles first, the browser animates the stored result
 
-## Codespaces
+## Run in GitHub Codespaces
 
 ```bash
 bash setup-linux.sh
 bash run-codespaces.sh
 ```
 
-Open port `8000` from the **PORTS** panel.
+Open port `8000` from the Codespaces **PORTS** panel.
 
 Demo accounts:
 
@@ -35,20 +42,22 @@ Player: demo@example.com / Demo123!
 Admin:  admin@example.com / ChangeMe123!
 ```
 
-Change the admin password and enable 2FA before sharing an environment.
+## Upgrade an existing Lite Core repository
 
-## Upgrade from Lucky Arcade v1.0
-
-Use the separate update package and run:
+Copy the Visual update package into the repository, extract it, then run:
 
 ```bash
-bash upgrade-lite-core.sh
+chmod +x upgrade-visual.sh
+bash upgrade-visual.sh
+bash run-codespaces.sh
 ```
 
-The script creates a timestamped SQLite backup before pruning non-core modules. Historical game entries and ledger records are preserved. An old High Low game with history is disabled rather than deleting its records.
+The upgrade backs up SQLite before replacing presentation files and runs the complete test suite.
 
 ## Production
 
-Use PostgreSQL for primary data and Redis for cache/session. See [docs/PRODUCTION.md](docs/PRODUCTION.md).
+Use PostgreSQL and Redis. See `docs/PRODUCTION.md` and `.env.production.example`.
 
-This project does not implement deposits, withdrawals, cryptocurrency, cash prizes or transferable credits.
+## Safety boundary
+
+This project uses virtual credits with no cash value. It does not include deposits, withdrawals, crypto, payment gateways or admin-controlled game outcomes.

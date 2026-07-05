@@ -1,4 +1,4 @@
-name: Lucky Arcade Lite CI
+name: Lucky Arcade Visual CI
 on: [push, pull_request]
 permissions: {contents: read}
 jobs:
@@ -21,7 +21,7 @@ jobs:
         with: {php-version: '${{ matrix.php }}', extensions: 'pdo_sqlite, sqlite3, pdo_pgsql', coverage: none}
       - name: Validate source
         run: |
-          bash -n setup-linux.sh run-codespaces.sh upgrade-lite-core.sh
+          bash -n setup-linux.sh run-codespaces.sh upgrade-visual.sh
           find overlay -name '*.php' -print0 | xargs -0 -n1 php -l >/dev/null
       - name: Create Laravel app
         run: composer create-project --no-interaction --prefer-dist laravel/laravel:^13.0 lucky-arcade-ci

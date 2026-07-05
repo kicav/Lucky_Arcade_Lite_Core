@@ -1,12 +1,13 @@
 # Changelog
 
-## Lite Core 1.0.0
+## Visual 1.1.0 — 2026-07-05
 
-- Reduced the product to four core games.
-- Rebuilt navigation, lobby, history and admin UI.
-- Removed non-core gamification, community, live and analytics modules.
-- Reduced admin roles to Super Admin and Operator.
-- Retained immutable ledger, row locking, idempotency and provably-fair verification.
-- Added a clean eight-migration schema for new installations.
-- Added a safe pruning migration and update script for existing v1.0 installations.
-- Kept PostgreSQL and Redis production support.
+- Rebuilt the public interface as Lucky Arcade Visual.
+- Added original SVG game artwork and an animated visual lobby.
+- Added ambient particles, gradients, responsive glass panels and interactive card tilt.
+- Added animated Dice, Roulette, Coin Flip and Lucky Slots presentations.
+- Added generated sound effects, sound preference and reduced-motion preference.
+- Added result celebration that runs only after the backend has settled a winning round.
+- Added `VisualExperienceTest` and corrected the Lite Core smoke test.
+- Kept all wallet, ledger, idempotency, fairness and admin logic unchanged.
+- Added `upgrade-visual.sh` for non-destructive upgrades from Lite Core.

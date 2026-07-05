@@ -12,5 +12,5 @@ trap cleanup EXIT INT TERM
 mkdir -p storage/logs
 XDEBUG_MODE=off php artisan schedule:work > storage/logs/scheduler.log 2>&1 &
 SCHEDULER_PID=$!
-echo "Lucky Arcade Lite: http://0.0.0.0:8000"
+echo "Lucky Arcade Visual: http://0.0.0.0:8000"
 XDEBUG_MODE=off php artisan serve --host=0.0.0.0 --port=8000

@@ -1,4 +1,4 @@
-name: lucky-arcade-lite
+name: lucky-arcade-visual
 x-app: &app
   build:
     context: ./lucky-arcade-app

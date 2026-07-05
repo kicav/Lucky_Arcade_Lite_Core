@@ -17,7 +17,7 @@ class LiteCoreSmokeTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $this->get('/')->assertOk()->assertSee('Four games');
+        $this->get('/')->assertOk()->assertSeeText('Arcade energy.');
         $this->assertSame(Game::LITE_CODES, Game::query()->orderBy('id')->pluck('code')->all());
         $this->assertFalse(Schema::hasTable('user_missions'));
         $this->assertFalse(Schema::hasTable('live_events'));
@@ -29,9 +29,21 @@ class LiteCoreSmokeTest extends TestCase
         $this->seed(DatabaseSeeder::class);
         $player = User::query()->where('email', 'demo@example.com')->firstOrFail();
 
-        $this->actingAs($player)->get('/games')->assertOk()->assertSee('Choose your game')->assertDontSee('High Low');
-        $this->actingAs($player)->get('/history')->assertOk()->assertSee('Plays and wallet ledger');
-        $this->actingAs($player)->get('/fairness')->assertOk()->assertSee('Provably fair seeds');
-        $this->actingAs($player)->get('/account')->assertOk()->assertSee('Responsible play');
+        $this->actingAs($player)->get('/games')
+            ->assertOk()
+            ->assertSeeText('Choose your game')
+            ->assertDontSeeText('High Low');
+
+        $this->actingAs($player)->get('/history')
+            ->assertOk()
+            ->assertSeeText('Plays and wallet ledger');
+
+        $this->actingAs($player)->get('/fairness')
+            ->assertOk()
+            ->assertSeeText('Provably fair seeds');
+
+        $this->actingAs($player)->get('/account')
+            ->assertOk()
+            ->assertSeeText('Limits and self-exclusion');
     }
 }

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+<title>Lucky Arcade visual mark</title>
+<defs><linearGradient id="g" x1="8" y1="6" x2="55" y2="58" gradientUnits="userSpaceOnUse"><stop stop-color="#7CF7E7"/><stop offset=".5" stop-color="#8977FF"/><stop offset="1" stop-color="#FF69A8"/></linearGradient><filter id="s" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<path d="M32 4 57 18v28L32 60 7 46V18L32 4Z" fill="#0A1020" stroke="url(#g)" stroke-width="3"/>
+<path d="m32 13 16.5 9.5v19L32 51l-16.5-9.5v-19L32 13Z" fill="none" stroke="url(#g)" stroke-width="2" opacity=".55"/>
+<circle cx="24" cy="26" r="3" fill="#7CF7E7" filter="url(#s)"/><circle cx="40" cy="26" r="3" fill="#FF69A8" filter="url(#s)"/><circle cx="24" cy="39" r="3" fill="#FF69A8" filter="url(#s)"/><circle cx="40" cy="39" r="3" fill="#7CF7E7" filter="url(#s)"/>
+</svg>

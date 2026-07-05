@@ -1,20 +1,29 @@
-# Start here
+# Start here — Lucky Arcade Visual
 
-## New Lite Core repository
+## New repository
 
-1. Upload all files to a new GitHub repository.
+1. Upload the extracted contents to the repository root.
 2. Confirm `.devcontainer/devcontainer.json` exists.
-3. Create a Codespace.
-4. Run `bash setup-linux.sh`.
-5. Run `bash run-codespaces.sh`.
-6. Open forwarded port `8000`.
+3. Create or rebuild the Codespace.
+4. Check `php -v` reports PHP 8.3 or newer.
+5. Run:
 
-## Existing v1.0 repository
+```bash
+bash setup-linux.sh
+bash run-codespaces.sh
+```
 
-1. Stop the Laravel server.
-2. Upload and extract the Lite Core update package at the repository root.
-3. Run `chmod +x upgrade-lite-core.sh run-codespaces.sh`.
-4. Run `bash upgrade-lite-core.sh`.
-5. Run `bash run-codespaces.sh`.
+6. Open port `8000` from the **PORTS** panel.
 
-The pre-upgrade database backup is retained beside `database.sqlite`.
+## Existing Lite Core repository
+
+Use the Visual update ZIP and run:
+
+```bash
+bash upgrade-visual.sh
+bash run-codespaces.sh
+```
+
+## Visual controls
+
+The music-note control enables generated UI sounds. The circle control enables reduced-motion mode. Both settings stay in browser local storage.

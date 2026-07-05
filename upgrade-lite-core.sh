@@ -23,6 +23,28 @@ cleanup_legacy() {
 }
 cleanup_legacy "$ROOT/overlay"
 cleanup_legacy "$APP"
+
+# The update package is merged into an existing repository. Remove every legacy
+# PHPUnit file that may remain in overlay/tests from older full-edition releases.
+# Only the Lite Core suite is allowed to be copied into the generated app.
+prune_tests() {
+  local BASE="$1"
+  [ -d "$BASE/tests/Feature" ] && find "$BASE/tests/Feature" -maxdepth 1 -type f \
+    ! -name 'LiteCoreSmokeTest.php' \
+    ! -name 'WalletBetTest.php' \
+    ! -name 'AdminLiteTest.php' \
+    ! -name 'SecurityHeadersTest.php' -delete
+  [ -d "$BASE/tests/Unit" ] && find "$BASE/tests/Unit" -maxdepth 1 -type f \
+    ! -name 'DiceEngineTest.php' \
+    ! -name 'RouletteEngineTest.php' \
+    ! -name 'CoinFlipEngineTest.php' \
+    ! -name 'SlotsEngineTest.php' \
+    ! -name 'ProvablyFairServiceTest.php' \
+    ! -name 'TotpServiceTest.php' -delete
+}
+prune_tests "$ROOT/overlay"
+prune_tests "$APP"
+
 cd "$APP"
 rm -rf resources/views tests
 cp -R "$ROOT/overlay/app/." app/

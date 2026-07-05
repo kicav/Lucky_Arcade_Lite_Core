@@ -1,0 +1,10 @@
+lucky-arcade-app/
+.env
+*.sqlite
+*.sqlite.backup-*
+vendor/
+node_modules/
+.DS_Store
+.env.production
+*.dump
+storage/app/backups/

@@ -1,0 +1,14 @@
+{
+  "name": "Lucky Arcade Lite Core",
+  "image": "mcr.microsoft.com/devcontainers/php:1-8.3",
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": {
+      "label": "Lucky Arcade Lite",
+      "onAutoForward": "notify",
+      "protocol": "http"
+    }
+  },
+  "postCreateCommand": "chmod +x setup-linux.sh run-codespaces.sh upgrade-lite-core.sh 2>/dev/null || true; php -v && composer --version && php -m | grep -Ei 'pdo_sqlite|sqlite3' || true",
+  "remoteUser": "vscode"
+}

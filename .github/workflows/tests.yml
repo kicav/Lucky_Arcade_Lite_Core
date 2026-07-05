@@ -1,0 +1,56 @@
+name: Lucky Arcade Lite CI
+on: [push, pull_request]
+permissions: {contents: read}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: {database: [sqlite, pgsql], php: ['8.3', '8.4']}
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env: {POSTGRES_DB: lucky_arcade_test, POSTGRES_USER: lucky_arcade, POSTGRES_PASSWORD: lucky_arcade_test}
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U lucky_arcade -d lucky_arcade_test"
+          --health-interval 10s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with: {php-version: '${{ matrix.php }}', extensions: 'pdo_sqlite, sqlite3, pdo_pgsql', coverage: none}
+      - name: Validate source
+        run: |
+          bash -n setup-linux.sh run-codespaces.sh upgrade-lite-core.sh
+          find overlay -name '*.php' -print0 | xargs -0 -n1 php -l >/dev/null
+      - name: Create Laravel app
+        run: composer create-project --no-interaction --prefer-dist laravel/laravel:^13.0 lucky-arcade-ci
+      - name: Apply overlay
+        run: cp -R overlay/. lucky-arcade-ci/
+      - name: Configure
+        working-directory: lucky-arcade-ci
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          sed -i 's/^APP_ENV=.*/APP_ENV=testing/' .env
+          sed -i 's/^CACHE_STORE=.*/CACHE_STORE=array/' .env
+          sed -i 's/^QUEUE_CONNECTION=.*/QUEUE_CONNECTION=sync/' .env
+          sed -i 's/^SESSION_DRIVER=.*/SESSION_DRIVER=array/' .env
+          if [ "${{ matrix.database }}" = sqlite ]; then
+            touch database/database.sqlite
+            sed -i 's/^DB_CONNECTION=.*/DB_CONNECTION=sqlite/' .env
+            echo "DB_DATABASE=$(pwd)/database/database.sqlite" >> .env
+          else
+            sed -i 's/^DB_CONNECTION=.*/DB_CONNECTION=pgsql/' .env
+            printf '%s\n' DB_HOST=127.0.0.1 DB_PORT=5432 DB_DATABASE=lucky_arcade_test DB_USERNAME=lucky_arcade DB_PASSWORD=lucky_arcade_test >> .env
+          fi
+      - name: Test
+        working-directory: lucky-arcade-ci
+        run: |
+          php artisan migrate --seed --force
+          php artisan test
+          php artisan wallets:reconcile
+          php artisan arcade:doctor
+      - name: Audit
+        working-directory: lucky-arcade-ci
+        run: composer audit --locked

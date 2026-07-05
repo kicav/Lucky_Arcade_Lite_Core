@@ -1,0 +1,8 @@
+@extends('layouts.app')
+@section('title','Admin')
+@section('content')
+<div class="page-head"><div><span class="eyebrow">ADMIN CONSOLE</span><h1>Operations overview</h1><p>Only the core controls needed to operate the virtual-credit platform.</p></div></div>
+<div class="admin-nav"><a href="{{ route('admin.users.index') }}">Players</a><a href="{{ route('admin.games.index') }}">Games</a><a href="{{ route('admin.entries.index') }}">Game history</a><a href="{{ route('admin.audit.index') }}">Audit log</a><a href="{{ route('admin.system.index') }}">System</a></div>
+<div class="stat-grid five"><div class="stat"><span>Players</span><strong>{{ number_format($userCount) }}</strong></div><div class="stat"><span>Games</span><strong>{{ $gameCount }}</strong></div><div class="stat"><span>Rounds</span><strong>{{ number_format($entryCount) }}</strong></div><div class="stat"><span>Total stake</span><strong>{{ number_format($totalStake) }}</strong></div><div class="stat"><span>System net</span><strong class="{{ $houseNet>=0?'positive':'negative' }}">{{ number_format($houseNet) }}</strong></div></div>
+<section class="panel"><h2>Latest rounds</h2><div class="table-wrap"><table><thead><tr><th>User</th><th>Game</th><th>Stake</th><th>Payout</th><th>Net</th><th>Time</th></tr></thead><tbody>@forelse($latestEntries as $entry)<tr><td>{{ $entry->user->email }}</td><td>{{ $entry->game->name }}</td><td>{{ number_format($entry->stake) }}</td><td>{{ number_format($entry->payout) }}</td><td class="{{ $entry->net>=0?'positive':'negative' }}">{{ number_format($entry->net) }}</td><td>{{ $entry->created_at->format('M d, H:i') }}</td></tr>@empty<tr><td colspan="6">No rounds.</td></tr>@endforelse</tbody></table></div></section>
+@endsection

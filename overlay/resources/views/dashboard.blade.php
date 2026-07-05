@@ -1,0 +1,8 @@
+@extends('layouts.app')
+@section('title','Overview')
+@section('content')
+<div class="page-head"><div><span class="eyebrow">PLAYER OVERVIEW</span><h1>Welcome back, {{ auth()->user()->name }}</h1></div><div class="balance-card"><span>Available balance</span><strong>{{ number_format($wallet->balance) }}</strong><small>virtual credits</small></div></div>
+@if(auth()->user()->isSelfExcluded())<div class="alert error">Self-exclusion is active until {{ auth()->user()->self_excluded_until->format('Y-m-d H:i') }}.</div>@endif
+<div class="stat-grid"><div class="stat"><span>Today’s stake</span><strong>{{ number_format($todayStake) }}</strong></div><div class="stat"><span>Daily limit</span><strong>{{ auth()->user()->daily_stake_limit ? number_format(auth()->user()->daily_stake_limit) : 'None' }}</strong></div><div class="stat"><span>Recent rounds</span><strong>{{ $entries->count() }}</strong></div></div>
+<section class="panel"><div class="section-head"><h2>Recent plays</h2><a href="{{ route('history') }}">View history →</a></div><div class="table-wrap"><table><thead><tr><th>Game</th><th>Stake</th><th>Payout</th><th>Net</th><th>Time</th></tr></thead><tbody>@forelse($entries as $entry)<tr><td>{{ $entry->game->name }}</td><td>{{ number_format($entry->stake) }}</td><td>{{ number_format($entry->payout) }}</td><td class="{{ $entry->net>=0?'positive':'negative' }}">{{ number_format($entry->net) }}</td><td>{{ $entry->created_at->format('M d, H:i') }}</td></tr>@empty<tr><td colspan="5">No plays yet. <a href="{{ route('games.index') }}">Choose a game.</a></td></tr>@endforelse</tbody></table></div></section>
+@endsection
